@@ -1,15 +1,14 @@
 import React, {useMemo} from 'react';
-import {AbsoluteFill, HtmlInCanvas, interpolate, useCurrentFrame, useVideoConfig} from 'remotion';
-import {lensBlur} from '@remotion/effects/lens-blur';
+import {AbsoluteFill, interpolate, useCurrentFrame, useVideoConfig} from 'remotion';
 import {clamp01, cyc, fadeIn, fadeOutEnd, mulberry32, smoothstep} from './smooth.js';
-import {FxGrain, Grade, Vignette} from './postfx.jsx';
+import {GrainNoise, Grade, Vignette} from './postfx.jsx';
 
 // 11. MOON PHASES — lunar cycle: 8 moon phases morphing in a row, stars
 // twinkling, slow drift. Palette 60% #0B1026 deep navy / 30% #C0C8D8 silver
 // / 10% #F5C542 gold. Phases appear staggered 60ms, then a gold highlight
 // sweeps across (there-and-back, one sweep per loop). Stars twinkle via
-// circular noise (integer cycles — seamless). Effects: lensBlur on the
-// bokeh starfield background (HtmlInCanvas) + FxGrain (fractalNoise).
+// circular noise (integer cycles — seamless). Effects: bokeh starfield (lensBlur removed, fallback) on the
+// bokeh starfield background (fallback: no HtmlInCanvas) + GrainNoise (replaces FxGrain).
 // Phase rendering: silver disc + dark disc offset (classic terminator trick);
 // waxing lit on the right, waning on the left. Frame 0: bg + stars visible.
 const W = 1920;
@@ -83,16 +82,8 @@ export const MoonPhases = () => {
               'linear-gradient(180deg, #0B1026 0%, #0D1430 55%, #080C1E 100%)',
           }}
         />
-        {/* bokeh starfield, softened by lensBlur (depth-of-field) */}
-        <HtmlInCanvas
-          width={W}
-          height={H}
-          effects={[lensBlur({radius: 6, irisShape: 'hexagon', irisRoundness: 0.5})]}
-          effectsOutputSize={{width: W, height: H}}
-          style={{position: 'absolute', inset: 0}}
-        >
-          <div style={{position: 'absolute', inset: 0, background: bokehBg}} />
-        </HtmlInCanvas>
+        {/* bokeh starfield (lensBlur removed, fallback) */}
+        <div style={{position: 'absolute', inset: 0, background: bokehBg}} />
         <svg width={W} height={H} style={{position: 'absolute'}}>
           {/* sharp twinkling stars */}
           <g transform={`translate(${driftX.toFixed(1)} ${driftY.toFixed(1)})`}>
@@ -174,7 +165,7 @@ export const MoonPhases = () => {
           THE LUNAR CYCLE
         </div>
       </Grade>
-      <FxGrain seed={81} />
+      <GrainNoise opacity={0.05} seed={81} />
       <Vignette strength={0.18} rgb="4,6,16" />
     </AbsoluteFill>
   );
