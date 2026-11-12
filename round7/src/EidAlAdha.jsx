@@ -1,16 +1,15 @@
 import React, {useMemo} from 'react';
-import {AbsoluteFill, HtmlInCanvas, interpolate, useCurrentFrame, useVideoConfig} from 'remotion';
+import {AbsoluteFill, interpolate, useCurrentFrame, useVideoConfig} from 'remotion';
 import {evolvePath, getLength} from '@remotion/paths';
-import {lensBlur} from '@remotion/effects/lens-blur';
 import {cyc, fadeIn, fadeOutEnd, mulberry32, smoothstep, starPath, triWave} from './smooth.js';
-import {FxGrain, Grade, Vignette} from './postfx.jsx';
+import {GrainNoise, Grade, Vignette} from './postfx.jsx';
 
 // 3. EID AL-ADHA — crescent + geometric star pattern + lanterns, warm glow.
 // Palette 60% #0B2E2B deep teal / 30% #C9A227 gold / 10% #F8F3E8 warm white.
 // Text EXACT (Latin only): "Eid al-Adha". NO date on screen (moon-sighting
 // +/-1 day). Rotation 45 deg on 8-fold symmetry (same rule as
-// GirihRosetteMorph round 6). Effects: lensBlur on the bokeh background
-// (HtmlInCanvas) + FxGrain (fractalNoise). Frame 0: bg glow + faint pattern
+// GirihRosetteMorph round 6). Effects: bokeh background (lensBlur removed, fallback)
+// (fallback: no HtmlInCanvas) + GrainNoise (replaces FxGrain). Frame 0: bg glow + faint pattern
 // already visible (not empty).
 const W = 1920;
 const H = 1080;
@@ -92,16 +91,8 @@ export const EidAlAdha = () => {
               'linear-gradient(135deg, #0B2E2B 0%, #0A2623 55%, #07201D 100%)',
           }}
         />
-        {/* bokeh background, softened by lensBlur (depth-of-field) */}
-        <HtmlInCanvas
-          width={W}
-          height={H}
-          effects={[lensBlur({radius: 8, irisShape: 'hexagon', irisRoundness: 0.5})]}
-          effectsOutputSize={{width: W, height: H}}
-          style={{position: 'absolute', inset: 0}}
-        >
+      {/* bokeh background (lensBlur removed, fallback) */}
           <div style={{position: 'absolute', inset: 0, background: bokehBg}} />
-        </HtmlInCanvas>
         <svg width={W} height={H} style={{position: 'absolute'}}>
           {/* faint star tiling */}
           <g transform={`translate(${driftX.toFixed(1)} ${driftY.toFixed(1)})`}>
@@ -196,7 +187,7 @@ export const EidAlAdha = () => {
           Eid al-Adha
         </div>
       </Grade>
-      <FxGrain seed={73} />
+      <GrainNoise opacity={0.05} seed={73} />
       <Vignette strength={0.16} rgb="4,20,18" />
     </AbsoluteFill>
   );
