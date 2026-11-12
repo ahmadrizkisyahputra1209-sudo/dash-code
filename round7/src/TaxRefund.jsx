@@ -2,13 +2,13 @@ import React, {useMemo} from 'react';
 import {AbsoluteFill, Easing, interpolate, spring, useCurrentFrame, useVideoConfig} from 'remotion';
 import {evolvePath, getLength} from '@remotion/paths';
 import {clamp01, countProg, cyc, fadeIn, fadeOutEnd, mulberry32, smoothstep} from './smooth.js';
-import {FxGrain, Grade, Vignette} from './postfx.jsx';
+import {GrainNoise, Grade, Vignette} from './postfx.jsx';
 
 // 1. TAX REFUND — tax form + calculator + refund count-up + checkmark.
 // Palette 60% #0B3D2E deep green / 30% #3DDC97 mint / 10% #E8B84B gold.
 // Data EXACT: refund $1,248. Text: "Tax Day Thu 15 Apr 2027" (factual date).
 // Count-up: $0 -> $1,248 (f60-150), hold, fade-out f285-300 (NEVER reverse).
-// Effects: FxGrain (fractalNoise) 2-5% dithering. Frame 0: bg + form outlines
+// Effects (fallback, WebGL slow in Codespace): GrainNoise replaces FxGrain (fractalNoise). Frame 0: bg + form outlines
 // already visible (not empty).
 const W = 1920;
 const H = 1080;
@@ -237,7 +237,7 @@ export const TaxRefund = () => {
           REFUND
         </div>
       </Grade>
-      <FxGrain seed={71} />
+      <GrainNoise opacity={0.05} seed={71} />
       <Vignette strength={0.16} rgb="4,24,16" />
     </AbsoluteFill>
   );
