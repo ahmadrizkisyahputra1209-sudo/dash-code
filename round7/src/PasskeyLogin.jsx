@@ -2,7 +2,7 @@ import React, {useMemo} from 'react';
 import {AbsoluteFill, interpolate, spring, useCurrentFrame, useVideoConfig} from 'remotion';
 import {evolvePath, getLength} from '@remotion/paths';
 import {arcPath, clamp01, eventEnv, fadeIn, fadeOutEnd, smoothstep} from './smooth.js';
-import {FxGrain, Grade, Vignette} from './postfx.jsx';
+import {GrainNoise, Grade, Vignette} from './postfx.jsx';
 
 // 6. PASSKEY LOGIN — fingerprint scan -> passkey key morphing -> checkmark.
 // Palette 60% #0D1117 dark navy / 30% #58A6FF electric blue / 10% #3DDC84
@@ -10,7 +10,7 @@ import {FxGrain, Grade, Vignette} from './postfx.jsx';
 // Beats: scan line moves LINEAR (f30-120) -> key draws (f150-210) ->
 // checkmark pops (f210-240) -> settle. Every envelope returns to 0 by f300,
 // and the base fingerprint is constant, so value(300) = value(0).
-// Effects: FxGrain (fractalNoise). Frame 0: fingerprint base visible.
+// Effects: GrainNoise (replaces FxGrain, fallback). Frame 0: fingerprint base visible.
 const W = 1920;
 const H = 1080;
 const CX = 960;
@@ -156,7 +156,7 @@ export const PasskeyLogin = () => {
           PASSWORDLESS SIGN-IN
         </div>
       </Grade>
-      <FxGrain seed={76} />
+      <GrainNoise opacity={0.05} seed={76} />
       <Vignette strength={0.18} rgb="4,8,16" />
     </AbsoluteFill>
   );
