@@ -1,0 +1,10 @@
+Title: AI Agent Workflow Human Approval Loop Automation Animation
+Keywords: ai agent workflow, agentic ai, ai automation, human approval, ai assistant, autonomous agent, ai workflow, enterprise ai, ai task automation, human in the loop
+Duration: 10s | 3840x2160 Landscape 16:9 4K | H.264 MP4 | 30fps | Seamless loop
+File: ai-agent-workflow-v3_10s-4k.mp4 (21,184,621 bytes / 21.2 MB, measured bitrate 16.95 Mbps, encoded --video-bitrate 18M)
+Version: REDESIGN v3 — busier visuals (node-network background, 3 columns, activity log, grain 0.05-0.06) to pass Adobe quality check; 4K native render from Remotion source (--scale=2, no upscale)
+Animation: pure code animation (Remotion, no AI-generated assets)
+Created using generative AI tools: NO — do not check
+Recognizable people or property: No
+Status: REDESIGNED v3, not yet submitted
+Replaces: ai-agent-workflow_10s-4k.mp4 (v1, File ID 2251289165, deleted from Adobe) and ai-agent-workflow-v2_10s-4k.mp4 (v2, File ID 2251308792, quality warning, not submitted)
